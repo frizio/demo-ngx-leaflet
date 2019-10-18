@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { tileLayer, latLng, marker, icon, polyline } from 'leaflet';
+import { tileLayer, latLng, marker, icon, polyline, Map, point } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -63,8 +63,6 @@ export class AppComponent {
     ]
   );
 
-
-
   // Layers control object with our two base layers and the three overlay layer
   layersControl = {
     baseLayers: {
@@ -83,5 +81,17 @@ export class AppComponent {
     zoom: 11,
     center: latLng([38.088, 13.155])
   };
+
+  onMapReady(map: Map) {
+    console.log('Chiamato metodo onMapReady');
+    map.fitBounds(
+      this.route.getBounds(),
+      {
+        padding: point(24, 24),
+        maxZoom: 12,
+        animate: true
+      }
+    );
+  }
 
 }
