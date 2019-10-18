@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { tileLayer, latLng, marker, icon, polyline, Map, point, circle, polygon } from 'leaflet';
 
 @Component({
@@ -6,7 +6,9 @@ import { tileLayer, latLng, marker, icon, polyline, Map, point, circle, polygon 
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit, AfterViewInit {
+
+  theMap: Map;
 
   // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -87,7 +89,7 @@ export class AppComponent {
 
   onMapReady(map: Map) {
     console.log('Chiamato metodo onMapReady');
-    console.log(map);
+    this.theMap = map;
   }
 
   onMapClick(infoClick: any) {
@@ -101,6 +103,15 @@ export class AppComponent {
 
   onMapZoom() {
     console.log('Chiamato metodo onMapZoom()');
+  }
+
+  ngOnInit(): void {
+    console.log('Inizializzato componente');
+  }
+
+  ngAfterViewInit(): void {
+    console.log('Chiamato metodo ngAfterViewInit()');
+    console.log(this.theMap);
   }
 
 }
