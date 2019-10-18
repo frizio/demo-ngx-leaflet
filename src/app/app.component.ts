@@ -10,6 +10,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   theMap: Map;
 
+  currentPosition: any;
+
   // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                           {
@@ -88,13 +90,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   };
 
   onMapReady(map: Map) {
-    console.log('Chiamato metodo onMapReady');
+    console.log('Callback metodo onMapReady');
     this.theMap = map;
   }
 
   onMapClick(infoClick: any) {
     console.log('Chiamato metodo onMapClick()');
     console.log(infoClick);
+    console.log(this.currentPosition);
   }
 
   onMapMove() {
@@ -106,13 +109,23 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log('Inizializzato componente');
+    console.log('Chiamato metodo ngOnInit()');
+    this.currentPosition = null;
   }
 
   ngAfterViewInit(): void {
     console.log('Chiamato metodo ngAfterViewInit()');
-    console.log(this.theMap);
     this.theMap.locate();
+    this.theMap.on('locationfound', this.onLocationFound, this);
+    this.theMap.on('locationerror', this.onLocationError, this);
+  }
+
+  private onLocationFound(event: any) {
+    this.currentPosition = event;
+  }
+
+  private onLocationError(event: any) {
+    alert(event.message);
   }
 
 }
