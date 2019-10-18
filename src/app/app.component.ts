@@ -12,6 +12,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   currentPosition: any;
   currentPositionPosition: any;
+  currentLocation: any = {};
 
   // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -115,8 +116,28 @@ export class AppComponent implements OnInit, AfterViewInit {
     // this.getLocation();
     // const tmp = this.watchPosition();
     this.currentPositionPosition = await this.getCurrentPosition();
-    console.log(this.currentPositionPosition.coords);
-    this.theMap.setView(new LatLng(this.currentPositionPosition.coords.latitude, this.currentPositionPosition.coords.longitude), 12);
+    // console.log(this.currentPositionPosition.coords);
+    this.currentLocation = {
+      latitude: this.currentPositionPosition.coords.latitude,
+      longitude: this.currentPositionPosition.coords.longitude
+    };
+
+    this.theMap.setView(new LatLng(this.currentLocation.latitude, this.currentLocation.longitude), 12);
+
+    const user = marker(
+      [ this.currentLocation.latitude, this.currentLocation.longitude ],
+      {
+        icon: icon(
+          {
+            iconSize: [ 25, 41 ],
+            iconAnchor: [ 13, 41 ],
+            iconUrl: 'leaflet/marker-icon.png',
+            shadowUrl: 'leaflet/marker-shadow.png'
+          }
+        )
+      }
+    );
+    user.addTo(this.theMap);
   }
 
   ngAfterViewInit(): void {
