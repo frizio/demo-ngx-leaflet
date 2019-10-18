@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { tileLayer, latLng, marker, icon } from 'leaflet';
+import { tileLayer, latLng, marker, icon, polyline } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -38,8 +38,8 @@ export class AppComponent {
       }
   );
 
-  // Marker for the parking lot at the base of Mt. Ranier trails
-  paradise = marker(
+  // Marker for the parking destination
+  parking = marker(
     [ 38.000, 13.000 ],
     {
       icon: icon(
@@ -51,10 +51,21 @@ export class AppComponent {
         }
       )
     }
-);
+  );
+
+  // Path from home to paradise
+  route = polyline(
+    [
+      [ 38.108, 13.335 ],
+      [ 38.1234567890123, 13.1234567890123 ],
+      [ 38.0000567890123, 13.1234567890123 ],
+      [ 38.000, 13.000 ],
+    ]
+  );
 
 
-  // Layers control object with our two base layers and the one overlay layer
+
+  // Layers control object with our two base layers and the three overlay layer
   layersControl = {
     baseLayers: {
       'Street Maps': this.streetMaps,
@@ -62,7 +73,8 @@ export class AppComponent {
     },
     overlays: {
       'My Home': this.home,
-      'The Parking': this.paradise
+      'The Parking': this.parking,
+      'Path with polyline': this.route
     }
   };
 
