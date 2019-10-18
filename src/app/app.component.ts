@@ -90,8 +90,9 @@ export class AppComponent {
     console.log(map);
   }
 
-  onMapClick() {
+  onMapClick(infoClick: any) {
     console.log('Chiamato metodo onMapClick()');
+    console.log(infoClick);
   }
 
   onMapMove() {

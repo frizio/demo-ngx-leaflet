@@ -8,7 +8,7 @@
      [leafletOptions]="options"
      [leafletLayersControl]="layersControl"
      (leafletMapReady)="onMapReady($event)"
-     (leafletClick)="onMapClick()"
+     (leafletClick)="onMapClick($event)"
      (leafletMapMove)="onMapMove()"
      (leafletMapZoom)="onMapZoom()"
      >
