@@ -112,6 +112,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     console.log('Chiamato metodo ngAfterViewInit()');
     console.log(this.theMap);
+    this.theMap.locate();
   }
 
 }
