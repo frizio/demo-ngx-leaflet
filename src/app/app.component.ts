@@ -90,4 +90,16 @@ export class AppComponent {
     console.log(map);
   }
 
+  onMapClick() {
+    console.log('Chiamato metodo onMapClick()');
+  }
+
+  onMapMove() {
+    console.log('Chiamato metodo onMapMove()');
+  }
+
+  onMapZoom() {
+    console.log('Chiamato metodo onMapZoom()');
+  }
+
 }

@@ -7,5 +7,9 @@
      leaflet
      [leafletOptions]="options"
      [leafletLayersControl]="layersControl"
-     (leafletMapReady)="onMapReady($event)">
+     (leafletMapReady)="onMapReady($event)"
+     (leafletClick)="onMapClick()"
+     (leafletMapMove)="onMapMove()"
+     (leafletMapZoom)="onMapZoom()"
+     >
 </div>
