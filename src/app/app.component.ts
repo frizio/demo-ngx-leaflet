@@ -87,14 +87,7 @@ export class AppComponent {
 
   onMapReady(map: Map) {
     console.log('Chiamato metodo onMapReady');
-    map.fitBounds(
-      this.route.getBounds(),
-      {
-        padding: point(24, 24),
-        maxZoom: 12,
-        animate: true
-      }
-    );
+    console.log(map);
   }
 
 }
