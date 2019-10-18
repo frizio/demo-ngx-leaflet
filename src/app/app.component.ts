@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { tileLayer, latLng, marker, icon, polyline, Map, point, circle, polygon } from 'leaflet';
+import { tileLayer, latLng, marker, icon, polyline, Map, point, circle, polygon, LatLng } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +11,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   theMap: Map;
 
   currentPosition: any;
+  currentPositionPosition: any;
 
   // Define our base layers so we can reference them multiple times
   streetMaps = tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -108,11 +109,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     console.log('Chiamato metodo onMapZoom()');
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     console.log('Chiamato metodo ngOnInit()');
-    this.currentPosition = null;
-    this.getLocation();
+    // this.currentPosition = null;
+    // this.getLocation();
     // const tmp = this.watchPosition();
+    this.currentPositionPosition = await this.getCurrentPosition();
+    console.log(this.currentPositionPosition.coords);
+    this.theMap.setView(new LatLng(this.currentPositionPosition.coords.latitude, this.currentPositionPosition.coords.longitude), 12);
   }
 
   ngAfterViewInit(): void {
@@ -172,6 +176,26 @@ export class AppComponent implements OnInit, AfterViewInit {
     } else {
       console.log('Geo Location not supported by browser');
       return null;
+    }
+  }
+
+  // Terzo metodo: Get user location from navigator.geolocation in maniera asincrona
+  getCurrentPosition(options = {}) {
+    return new Promise(
+      (resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, options);
+      }
+    );
+  }
+
+  async fetchCoordinates() {
+    console.log('Chiamato metodo fetchCoordinates');
+    try {
+      const coords = await this.getCurrentPosition();
+      console.log(coords);
+      // Process them
+    } catch (error) {
+        console.error(error);
     }
   }
 
