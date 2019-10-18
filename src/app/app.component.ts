@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { tileLayer, latLng, marker, icon, polyline, Map, point } from 'leaflet';
+import { tileLayer, latLng, marker, icon, polyline, Map, point, circle, polygon } from 'leaflet';
 
 @Component({
   selector: 'app-root',
@@ -67,12 +67,15 @@ export class AppComponent {
   layersControl = {
     baseLayers: {
       'Street Maps': this.streetMaps,
-      'Wikimedia Maps': this.wMaps
+      'Wikimedia Maps': this.wMaps,
+      'Open Cycle Map': tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
     },
     overlays: {
       'My Home': this.home,
       'The Parking': this.parking,
-      'Path with polyline': this.route
+      'Path with polyline': this.route,
+      'Big Circle': circle( [ 38.000, 13.000 ], {color: 'blue', fillColor: '#0F0', fillOpacity: 0.1, radius: 7000} ),
+      'Big Square': polygon( [[38.088, 13.155], [38.188, 13.155], [38.188, 13.255], [38.088, 13.255]] )
     }
   };
 
