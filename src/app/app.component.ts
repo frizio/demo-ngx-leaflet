@@ -38,6 +38,21 @@ export class AppComponent {
       }
   );
 
+  // Marker for the parking lot at the base of Mt. Ranier trails
+  paradise = marker(
+    [ 38.000, 13.000 ],
+    {
+      icon: icon(
+        {
+          iconSize: [ 25, 41 ],
+          iconAnchor: [ 13, 41 ],
+          iconUrl: 'leaflet/marker-icon.png',
+          shadowUrl: 'leaflet/marker-shadow.png'
+        }
+      )
+    }
+);
+
 
   // Layers control object with our two base layers and the one overlay layer
   layersControl = {
@@ -46,12 +61,13 @@ export class AppComponent {
       'Wikimedia Maps': this.wMaps
     },
     overlays: {
-      'My Home': this.home
+      'My Home': this.home,
+      'The Parking': this.paradise
     }
   };
 
   options = {
-    layers: [ this.streetMaps ],
+    layers: [ this.streetMaps, this.home ],
     zoom: 11,
     center: latLng([38.088, 13.155])
   };
