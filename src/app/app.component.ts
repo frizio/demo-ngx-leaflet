@@ -111,11 +111,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log('Chiamato metodo ngOnInit()');
     this.currentPosition = null;
+    this.getLocation();
+    // const tmp = this.watchPosition();
   }
 
   ngAfterViewInit(): void {
     console.log('Chiamato metodo ngAfterViewInit()');
-    this.theMap.locate();
+    // this.theMap.locate();
     this.theMap.on('locationfound', this.onLocationFound, this);
     this.theMap.on('locationerror', this.onLocationError, this);
   }
@@ -126,6 +128,51 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private onLocationError(event: any) {
     alert(event.message);
+  }
+
+  // Secondo metodo: Get user location from navigator.geolocation
+  private getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.showPosition, this.locationError);
+    } else {
+        console.log('Geo Location not supported by browser');
+    }
+  }
+
+  private showPosition(position: any) {
+    if (position) {
+      const location = {
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude
+      };
+      console.log(location);
+      localStorage.setItem('currentLongitude', position.coords.longitude);
+      localStorage.setItem('currentLatitude', position.coords.latitude);
+    }
+  }
+
+  private locationError(error: any) {
+    console.log(error);
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            return 'User denied the request for Geolocation.';
+        case error.POSITION_UNAVAILABLE:
+            return 'Location information is unavailable.';
+        case error.TIMEOUT:
+            return 'The request to get user location timed out.';
+        case error.UNKNOWN_ERROR:
+            return 'An unknown error occurred.';
+    }
+  }
+
+  private watchPosition(): number {
+    if (navigator.geolocation) {
+      const watchID =  navigator.geolocation.watchPosition(this.showPosition, this.locationError);
+      return watchID;
+    } else {
+      console.log('Geo Location not supported by browser');
+      return null;
+    }
   }
 
 }
